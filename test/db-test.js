@@ -19,7 +19,13 @@ test.before('db connection', async t => {
 
 test('listDatabases', async t => {
   let r = await client.listDatabases()
-  t.true(r)
+  t.true((r instanceof Array), 'expected Array')
+
+  if (r.indexOf(config.name) === -1) {
+    t.fail(`db no found 'listDatabases' ${r}`)
+  } else {
+    t.pass()
+  }
 })
 
 test.after('db Drop', async t => {
